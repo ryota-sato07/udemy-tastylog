@@ -69,7 +69,10 @@
                 <a href="#" class="btn btn-outline-success">投稿する</a>
               </div>
               <div>
-                <!-- shop review -->
+                <% for (var review of reviews) { %>
+                <% review.shop = id %>
+                <%- include("./review.ejs", review) %>
+                <% } %>
               </div>
             </div>
           </div>
