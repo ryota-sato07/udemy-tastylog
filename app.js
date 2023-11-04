@@ -14,7 +14,7 @@ app.disable("x-powered-by");
 // Expose global method to view engine.
 app.use ((req, res, next) => {
   res.locals.moment = require("moment");
-  res.locals.padding = require("./lib/math/math.js");
+  res.locals.padding = require("./lib/math/math.js").padding;
   next();
 });
 
