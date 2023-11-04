@@ -14,7 +14,7 @@ app.disable("x-powered-by");
 // Expose global method to view engine.
 app.use ((req, res, next) => {
   res.locals.moment = require("moment");
-  res.locals.padding = require("./lib/math/math.js");
+  res.locals.padding = require("./lib/math/math.js").padding;
   next();
 });
 
@@ -26,20 +26,8 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 app.use(accesslogger());
 
 // Dynamic resource rooting
+app.use("/shops", require("./routes/shops.js"));
 app.use("/", require("./routes/index.js"));
-app.use("/test", async (req, res, next) => {
-  const { MySQLClient, sql } = require("./lib/database/client.js");
-  var data;
-
-  try {
-    data = await MySQLClient.executeQuery(await sql("SELECT_SHOP_BASIC_BY_ID"), [1]);
-    console.log(data);
-  } catch (err) {
-    next(err);
-  }
-
-  res.end("OK");
-});
 
 // Set application log.
 app.use(applicationlogger());
