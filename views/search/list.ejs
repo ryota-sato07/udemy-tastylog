@@ -30,8 +30,20 @@
       </div>
 
       <nav>
-        <ul class="pagination justiry-content-center">
-          <!-- pagenation -->
+        <ul class="pagination justify-content-center">
+          <% for (var i = 1; i <= pagenation.max; i++) { %>
+            <% if (pagenation.current !== i) { %>
+              <% if (i <= 3 || (pagenation.current - 3 < i && i < pagenation.current + 3) || pagenation.max - 3 < i) { %>
+              <li class="page-item">
+                <a class="page-link" href="/search/?keyword=<%= keyword %>&page=<%= i %>"><%= i %></a>
+              </li>
+              <% } else { %>
+                .
+              <% } %>
+            <% } else { %>
+              <li class="page-item active"><span class="page-link disable"><%= i %></span></li>
+            <% } %>
+          <% } %>
         </ul>
       </nav>
     </main>
