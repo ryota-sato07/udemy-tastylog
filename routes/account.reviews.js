@@ -31,6 +31,9 @@ var createReviewData = function (req) {
   };
 };
 
+/**
+ * GET: regist shopId
+ */
 router.get("/regist/:shopId(\\d+)", async (req, res, next) => {
   var shopId = req.params.shopId;
   var secret, token, shop, shopName, review, results;
@@ -54,6 +57,9 @@ router.get("/regist/:shopId(\\d+)", async (req, res, next) => {
   }
 });
 
+/**
+ * POST: regist shopId
+ */
 router.post("/regist/:shopId(\\d+)", async (req, res, next) => {
   var review = createReviewData(req);
   var { shopId, shopName } = req.body;
@@ -73,6 +79,9 @@ router.post("/regist/confirm", (req, res) => {
   res.render("./account/reviews/regist-confirm.ejs", { shopId, shopName, review });
 });
 
+/**
+ * POST: regist execute
+ */
 router.post("/regist/execute", async (req, res, next) => {
   var secret = req.session._csrf;
   var token = req.cookies._csrf;
