@@ -31,6 +31,12 @@ router.get("/regist/:shopId(\\d+)", async (req, res, next) => {
   }
 });
 
+router.post("/regist/:shopId(\\d+)", async (req, res, next) => {
+  var review = createReviewData(req);
+  var { shopId, shopName } = req.body;
+  res.render("./account/reviews/regist-form.ejs", { shopId, shopName, review });
+});
+
 router.post("/regist/confirm", (req, res, next) => {
   var review = createReviewData(req);
   var { shopId, shopName } = req.body;
