@@ -20,9 +20,10 @@ var validateReviewData = function (req) {
 
 var createReviewData = function (req) {
   var body = req.body, date;
+
   return {
     shopId: req.params.shopId,
-    score: parseFloat(body.ccore),
+    score: parseFloat(body.score),
     visit: (date = moment(body.visit, DATE_FORMAT)) && date.isValid() ? date.toDate() : null,
     post: new Date(),
     description: body.description
@@ -32,6 +33,7 @@ var createReviewData = function (req) {
 router.get("/regist/:shopId(\\d+)", async (req, res, next) => {
   var shopId = req.params.shopId;
   var shop, shopName, review, results;
+
   try {
     results = await MySQLClient.executeQuery(
       await sql("SELECT_SHOP_BASIC_BY_ID"),
@@ -52,17 +54,52 @@ router.post("/regist/:shopId(\\d+)", async (req, res, next) => {
   res.render("./account/reviews/regist-form.ejs", { shopId, shopName, review });
 });
 
-router.post("/regist/confirm", (req, res, next) => {
+router.post("/regist/confirm", (req, res) => {
   var error = validateReviewData(req);
   var review = createReviewData(req);
   var { shopId, shopName } = req.body;
 
-  if(error) {
+  if (error) {
     res.render("./account/reviews/regist-form.ejs", { error, shopId, shopName, review });
     return;
   }
 
   res.render("./account/reviews/regist-confirm.ejs", { shopId, shopName, review });
+});
+
+router.post("/regist/execute", async (req, res, next) => {
+  var error = validateReviewData(req);
+  var review = createReviewData(req);
+  var { shopId, shopName } = req.body;
+  var userId = "1";     // TODO: ログイン実装後に更新
+  var transaction;
+
+  if (error) {
+    res.render("./account/reviews/regist-form.ejs", { error, shopId, shopName, review });
+    return;
+  }
+
+  try {
+    transaction = await MySQLClient.beginTransaction();
+    transaction.executeQuery(
+      await sql("SELECT_SHOP_BY_ID_FOR_UPDATE"),
+      [shopId]
+    );
+    transaction.executeQuery(
+      await sql("INSERT_SHOP_REVIEW"),
+      [shopId, userId, review.score, review.visit, review.description]
+    );
+    transaction.executeQuery(
+      await sql("UPDATE_SHOP_SCORE_BY_ID"),
+      [shopId, shopId]
+    );
+    await transaction.commit();
+  } catch (err) {
+    await transaction.rollback();
+    next(err);
+  }
+
+  res.render("./account/reviews/regist-complete.ejs");
 });
 
 module.exports = router;
