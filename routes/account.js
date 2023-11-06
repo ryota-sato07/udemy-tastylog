@@ -1,7 +1,5 @@
 const router = require("express").Router();
 
-router.get("/", (req, res) => {
-  res.render("./index.ejs");
-});
+router.use("/reviews", require("./account.reviews.js"));
 
 module.exports = router;

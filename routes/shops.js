@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { MySQLClient, sql } = require("../lib/database/client.js");
+
 router.get("/:id", async (req, res, next) => {
   var id = req.params.id;
 

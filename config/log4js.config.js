@@ -6,25 +6,27 @@ module.exports = {
     ConsoleLogAppender: {
       type: "console"
     },
-    ApplicationLogAppender: {
+    AppliationLogAppender: {
       type: "dateFile",
       filename: path.join(LOG_ROOT_DIR, "./application.log"),
-      pattern: "yyyyMMdd"
+      pattern: "yyyyMMdd",
+      daysToKeep: 7
     },
     AccessLogAppender: {
       type: "dateFile",
       filename: path.join(LOG_ROOT_DIR, "./access.log"),
-      pattern: "yyyyMMdd"
+      pattern: "yyyyMMdd",
+      daysToKeep: 7
     }
   },
   categories: {
     "default": {
       appenders: ["ConsoleLogAppender"],
-      level: "All"
+      level: "ALL"
     },
     "application": {
       appenders: [
-        "ApplicationLogAppender",
+        "AppliationLogAppender",
         "ConsoleLogAppender"
       ],
       level: "INFO"
