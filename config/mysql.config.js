@@ -6,6 +6,6 @@ module.exports = {
   DATABASE: process.env.MYSQL_DATABASE || "tastylog",
   CONNECTION_LIMIT: process.env.MYSQL_CONNECTION_LIMIT ?
     parseInt(process.env.MYSQL_CONNECTION_LIMIT) : 10,
-  QUEUR_LIMIT: process.env.MYSQL_QUEUR_LIMIT ?
-    parseInt(process.env.MYSQL_QUEUR_LIMIT) : 0
+  QUEUE_LIMIT: process.env.MYSQL_QUEUE_LIMIT ?
+    parseInt(process.env.MYSQL_QUEUE_LIMIT) : 0
 };
