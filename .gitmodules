@@ -1,0 +1,3 @@
+[submodule "lib/database/conf"]
+	path = lib/database/conf
+	url = git@github.com:ryota-sato07/udemy-tastylog-database.git
