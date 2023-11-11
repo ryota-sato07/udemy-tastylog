@@ -41,7 +41,7 @@
       "./public/**/*"
     ],
     "targets": [
-      "node16-win"
+      "node16-macos"
     ],
     "outputPath": "./dist"
   }
