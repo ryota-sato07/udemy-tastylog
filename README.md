@@ -15,3 +15,14 @@ $ cd lib/database/conf
 $ docker-compose up -d
 $ mysql -uroot -p -h127.0.0.1 -P3306
 ```
+
+## Localhost access
+
+```
+$ pwd
+/node/udemy-tastylog
+
+$ yarn build
+
+$ ./dist/tastylog
+```
